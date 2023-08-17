@@ -1,0 +1,25 @@
+/* Annotations.css */
+
+.annotations {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: start;
+}
+
+.annotations-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.annotation-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    width: 13px;
+    height: 13px;
+}

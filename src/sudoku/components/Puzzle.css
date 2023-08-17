@@ -1,0 +1,25 @@
+.puzzle {
+    width: 378px;
+    height: 378px;
+
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+.puzzle:first-child {
+    border-top: 3px solid #000;
+}
+
+.row:nth-child(3n+3) {
+    border-bottom: 3px solid #000;
+}

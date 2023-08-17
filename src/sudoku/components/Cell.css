@@ -1,0 +1,42 @@
+.cell {
+    border-right: 1px solid #000;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    background-color: #fff;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer; 
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+}
+
+.cell:first-child {
+    border-left: 3px solid #000;
+}
+.cell:nth-child(3n+3) {
+    border-right: 3px solid #000;
+}
+
+.number {
+    height: 40px;
+    width: 40px;
+}
+
+.original {
+    background-color: #eee;
+    cursor: default;
+    color: #000;
+    font-weight: bold;
+    height: 40px;
+    width: 40px;
+}
+
+.incorrect {
+    background-color: #ffc9c9;
+    color: #7a0000;
+    height: 40px;
+    width: 40px;
+}
