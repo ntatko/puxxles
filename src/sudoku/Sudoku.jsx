@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Editor from './components/Editor';
 import Puzzle from './components/Puzzle';
 import { generateSudokuPuzzle, trimPuzzle } from './utils';
@@ -66,6 +67,15 @@ const Sudoku = () => {
     const [running, setRunning] = useState(false);
     const [showWinMessage, setShowWinMessage] = useState(false);
     const [difficulty, setDifficulty] = useState(30)
+    const [params, setParams] = useSearchParams()
+
+    useEffect(() => {
+        if (params.get('id')) {
+            fetch(`https://api.github.com/gists/${params.get('id')}`).then(res => res.json()).then(res => {
+                setCode(res.files[Object.keys(res.files)[0]].content)
+            })
+        }
+    }, [params])
 
     const onReset = () => {
         const puzzle = generateSudokuPuzzle()
@@ -97,6 +107,10 @@ const Sudoku = () => {
                 const { solution: s, annotations: a, error } = event.data;
 
                 if (s && a) {
+                    if (deepEqual(s, enteredPuzzle)) {
+                        stopCode();
+                    }
+
                     setEnteredPuzzle(s);
                     setAnnotations(a);
 
@@ -179,6 +193,7 @@ const Sudoku = () => {
                                 <option value={30}>Easy</option>
                                 <option value={40}>Medium</option>
                                 <option value={50}>Hard</option>
+                                <option value={60}>Grizzly</option>
                             </select>
                             <button onClick={onReset}>New Puzzle</button>
                         </div>
@@ -217,6 +232,7 @@ const Sudoku = () => {
                             <option onClick={e => e.stopPropagation()} value={30}>Easy</option>
                             <option onClick={e => e.stopPropagation()} value={40}>Medium</option>
                             <option onClick={e => e.stopPropagation()} value={50}>Hard</option>
+                            <option onClick={e => e.stopPropagation()} value={60}>Grizzly</option>
                         </select>
                         <button onClick={(e) => {
                             e.stopPropagation()
