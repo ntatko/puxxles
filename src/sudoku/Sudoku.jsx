@@ -66,7 +66,6 @@ const Sudoku = () => {
     const [worker, setWorker] = useState(null);
     const [running, setRunning] = useState(false);
     const [showWinMessage, setShowWinMessage] = useState(false);
-    const [difficulty, setDifficulty] = useState(30)
     const [params, setParams] = useSearchParams()
 
     useEffect(() => {
@@ -78,14 +77,15 @@ const Sudoku = () => {
     }, [params])
 
     const onReset = () => {
-        const puzzle = generateSudokuPuzzle()
-        const trimmed = trimPuzzle(puzzle, difficulty)
-
         stopCode();
-        setOriginalPuzzle(trimmed)
-        setSolution(puzzle)
-        setEnteredPuzzle(trimmed)
         setAnnotations(new Array(9).fill(new Array(9).fill([])))
+
+        fetch('https://sudoku-api.vercel.app/api/dosuku').then(res => res.json()).then(res => {
+            const grid = res.newboard.grids[0]
+            setOriginalPuzzle(grid.value)
+            setSolution(grid.solution)
+            setEnteredPuzzle(grid.value)
+        })
     }
 
     useEffect(() => {
@@ -186,15 +186,6 @@ const Sudoku = () => {
 
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-                            <select value={difficulty} onChange={(e) => {
-                                e.stopPropagation()
-                                setDifficulty(e.target.value)
-                            }}>
-                                <option value={30}>Easy</option>
-                                <option value={40}>Medium</option>
-                                <option value={50}>Hard</option>
-                                <option value={60}>Grizzly</option>
-                            </select>
                             <button onClick={onReset}>New Puzzle</button>
                         </div>
                     </div>
@@ -225,15 +216,6 @@ const Sudoku = () => {
                         You Win!
                     </div>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <select value={difficulty} onChange={(e) => {
-                            e.stopPropagation()
-                            setDifficulty(e.target.value)
-                        }}>
-                            <option onClick={e => e.stopPropagation()} value={30}>Easy</option>
-                            <option onClick={e => e.stopPropagation()} value={40}>Medium</option>
-                            <option onClick={e => e.stopPropagation()} value={50}>Hard</option>
-                            <option onClick={e => e.stopPropagation()} value={60}>Grizzly</option>
-                        </select>
                         <button onClick={(e) => {
                             e.stopPropagation()
                             onReset()
